@@ -3,17 +3,12 @@ import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
 # ! direct tqdm is ok.
-from tqdm import trange # * 时间段，这个为了显示进程，加不加都行
-
-# * Something needs to commented
-# ! Something urgent
-# TODO add some funtions
-# * ":torch.Tensor"是为了提示自己输出结果是torch.Tensor,
+from tqdm import trange 
 
 def pooling_max_token(model_output: torch.Tensor, attention_mask: torch.Tensor): 
     # 执行没有关系
     token_embeddings = model_output[0]
-    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float() #维度变换
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float() 
     # Set padding tokens to large negative value
     token_embeddings[input_mask_expanded == 0] = -1e9  
     max_vector = torch.max(token_embeddings, 1)[0]
